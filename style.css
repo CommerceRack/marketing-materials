@@ -1,0 +1,79 @@
+body{
+	margin:0px;
+	background-color: #c5bcbb;
+}
+
+#wrapper {
+	width: 1240px;
+	margin: 0px auto;
+	background-color: #dcddde;
+	padding-top: 638px;
+}
+/* Start Header CSS */
+#header{
+	background: url('images/homepage_header.jpg') no-repeat left top;
+	width: 1240px;
+	height: 638px;
+	position: fixed;
+	top: 0px;
+}
+#homeLink{
+	display: block;
+	width: 1184px;
+	height: 41px;
+	position: absolute;
+	top: 277px;
+	left:56px;
+}
+#headerTabs {
+	position: absolute;
+	bottom: 25px;
+	left: 77px;
+}
+
+#headerTabs a{
+	color: #f8e00e;
+	font-family: 'Maven Pro', sans-serif;
+	font-size: 22px;
+	font-weight: 500;
+    text-decoration: none;
+	width: 360px;
+	height: 48px;
+	line-height: 48px;
+	background: #6d6e71;
+	display: block;
+	float: left;
+	text-align: center;
+	border-top-right-radius: 16px;
+	border-top-left-radius: 16px;
+	margin: 0px 1px;
+}
+
+/* End Header CSS */
+
+/* Start Footer CSS */
+#footer{
+	float:left;
+	width:100%;
+	background:#6d6e71;
+	margin: 0 auto;
+	overflow: hidden;
+	padding:15px 0 10px 0;
+} 
+.copyright {
+    color: #f6f8f0;
+	float: left;
+	font-family: 'Maven Pro', sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	margin-left: 60px;
+    padding: 10px 0px;
+    text-align: left;
+	width: 100%;
+}
+#socialIcons{
+	display: block;
+	float: left;
+	position: absolute;
+}
+/* End Footer CSS */

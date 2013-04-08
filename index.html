@@ -1,0 +1,461 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<!--
+
+VERSION: 2013-4-8-13-11-00
+
+-->
+	<meta charset="utf-8">
+	<link href="style.css" rel="stylesheet" type="text/css"/>
+	<link href='http://fonts.googleapis.com/css?family=Maven+Pro:400,500,700,900' rel='stylesheet' type='text/css'>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+	<script type="text/javascript">
+	/*
+	* FeedEk jQuery RSS/ATOM Feed Plugin 
+	* http://jquery-plugins.net/FeedEk/FeedEk.html
+	* Author : Engin KIZIL 
+	* http://www.enginkizil.com
+	*/
+	(function($){$.fn.FeedEk=function(opt){var def={FeedUrl:'',MaxCount:5,ShowDesc:true,ShowPubDate:true};if(opt){$.extend(def,opt)}var idd=$(this).attr('id');if(def.FeedUrl==null||def.FeedUrl==''){$('#'+idd).empty();return}var pubdt;$('#'+idd).empty().append('<div style="text-align:left; padding:3px;"><img src="images/feedek-loading.gif" /></div>');$.ajax({url:'http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num='+def.MaxCount+'&output=json&q='+encodeURIComponent(def.FeedUrl)+'&callback=?',dataType:'json',success:function(data){$('#'+idd).empty();$.each(data.responseData.feed.entries,function(i,entry){$('#'+idd).append('<div class="ItemTitle"><a href="'+entry.link+'" target="_blank" >'+entry.title+'</a></div>');if(def.ShowPubDate){pubdt=new Date(entry.publishedDate);$('#'+idd).append('<div class="ItemDate">'+pubdt.toLocaleDateString()+'</div>')}if(def.ShowDesc)$('#'+idd).append('<div class="ItemContent">'+entry.content+'</div>')})}})}})(jQuery);
+	/* FeedEk */
+	</script>
+
+	<script type="text/javascript">
+
+		$.fn.doesExist = function(){
+			// a doesExist function
+		   return jQuery(this).length > 0;
+			};
+
+		var jqesc = function(str) {
+			// escape a jquery selector
+			return str.replace(/([#;\/&,\.\+\*\~':"\!\^$\[\]\(\)=>\|])/g, "\\$1");
+		}
+
+		var defaultTransIn = function($page){
+			$page.fadeIn(1000);
+			return 1000;
+		}
+		
+		var defaultTransOut = function($page){
+			$page.fadeOut(1000);
+			return 1000;
+		}
+		
+		var defaultInitFunction = function($page){
+			//Default Init does nothing, but here for structural symmetry
+		}
+		
+		var defaultDestroyFunction = function($page){
+			for(var i=0; i<app.currentIntervals.length; i++){
+				clearInterval(app.currentIntervals[i]);
+			}
+			app.currentIntervals = [];
+		}
+		
+		var app = {
+			//an Object containing any non-default functionality
+			pages : {},
+			//a map of page location strings to template ids to load
+			pageAlias : {},
+			currentIntervals : []
+		};
+		
+		var path = document.URL;
+		
+		$(function(){
+			var $templates = $("#templates").children();
+			$templates.each(function(){
+				$(this).hide();
+			});
+			$("#mainContentArea").append($templates);
+			
+			//set current template (page handler)
+			if(document.URL.indexOf("#!") !== -1){
+				path = document.URL.split("#!")[1];
+				showFromLocation(document.URL.split("#!")[1]);
+			} else {
+				showFromLocation("/");
+			}
+			
+			if(typeof window.onpopstate == 'object')	{
+				window.onpopstate = function(event) { 
+					handlePopState(event.state);
+				}
+			}
+			
+		});
+		
+		var handlePopState = function(state){
+			showFromLocation(state);
+		}
+		
+		var showFromLocation = function(location){
+			//Find page if it exists, else the 404 page
+			// alert(location);
+			console.log("called showFromLocation('"+location+"')");
+			var ourURI = location.toString();
+			if ( ourURI.indexOf('#!') >= 0) {
+				ourURI = ourURI.substring( ourURI.indexOf('#!')+2 );	 // strip up to and after #!
+				}
+
+			if ( $('#'+jqesc(ourURI)).doesExist() ) {
+				console.log('going to div '+ourURI);
+				show($('#'+jqesc(ourURI)) );
+			} else if(typeof app.pageAlias[ourURI] !== "undefined"){
+				console.log("using pageAlias "+ourURI);
+				show($("#"+app.pageAlias[ourURI]));
+			} else {
+				console.log('missed '+ourURI+' going to 404');
+				show($("#404"));
+			}
+			//Use pushstate to change URL
+			
+			try	{
+
+				window.history.pushState(location, app.pageAlias[ourURI]+" title", location);
+			}
+			catch(err)	{
+				
+				console.warn("Pushstate attempt failed!");
+			}
+		}
+
+		var show = function($nextPage){
+			var id;
+			//Transition out current page, if it exists
+			var delay = 0;
+			if(typeof app.currentPage !== "undefined"){
+				id=app.currentPage.attr("id");
+				var transitionOutFunction;
+				if(typeof app.pages[id] !== "undefined" && typeof app.pages[id]["transitionOut"] !== "undefined")
+					transitionOutFunction = app.pages[id]["transitionOut"];
+				if(typeof transitionOutFunction === "undefined")
+					transitionOutFunction = defaultTransOut;
+				delay = transitionOutFunction(app.currentPage);
+				
+				var destroyFunction;
+				if(typeof app.pages[id] !== "undefined" && typeof app.pages[id]["destroy"] !== "undefined")
+					destroyFunction = app.pages[id]["destroy"];
+				if(typeof destroyFunction === "undefined") {
+					destroyFunction = defaultDestroyFunction;
+					console.log(id);
+				}
+				destroyFunction(app.currentPage);
+			}
+			
+			
+			id=$nextPage.attr("id");
+			//Transition in next page
+			setTimeout(function(){
+				var transitionInFunction;
+				if(typeof app.pages[id] !== "undefined" && typeof app.pages[id]["transitionIn"] !== "undefined")
+					transitionInFunction = app.pages[id]["transitionIn"];
+				if(typeof transitionInFunction === "undefined")
+					transitionInFunction = defaultTransIn;
+				var initDelay = transitionInFunction($nextPage);
+				app.currentPage = $nextPage;
+				
+				var initFunction;
+				if(typeof app.pages[id] !== "undefined" && typeof app.pages[id]["init"] !== "undefined")
+					initFunction = app.pages[id]["init"];
+				if(typeof initFunction === "undefined")
+					initFunction = defaultInitFunction;
+				initFunction($nextPage);
+			}, delay);
+			
+		};
+		
+		//TESTING SCRIPT
+		
+		//var showRandomPage = function(){
+		//	var index = Math.floor(Math.random() * 5);
+		//	var i = 0;
+		//	var location = "";
+		//	for(l in app.pageAlias){
+		//		if(i === index)
+		//			location = l;
+		//		i++;
+		//	}
+		//	showFromLocation(location);
+		// }
+		
+		//setInterval(function(){
+		//	showRandomPage();
+		//}, 5000);
+	</script>
+</head>
+
+
+<body>
+	<div id="wrapper">
+		<div id="header">
+			<a id="homeLink" href="#!/"></a>
+			<div id="headerTabs">
+				<a href="#!/cloudprovider.html">Cloud Provider</a>
+				<a href="#!/enduser.html">End User</a>
+				<a href="#!/aboutus.html">About Us</a>		
+			</div>
+		</div>
+	
+		<div id="mainContentArea">
+		</div>
+		
+		<div id="footer" class="footer">
+			<div class="copyright">&copy; 2013 Zoovy, Inc. All right reserved. All symbols and logos are the property of their respective owner.</div>
+			
+			<div id="socialIcons">
+			<a href="plus.google.com"><img src="images/googleplus-512-red27x27.png" width="36" height="36"/></a>
+			<a href="youtube.com"><img src="images/youtube.png" width="36" height="36" /></a>
+			<a href="twitter.com"><img src="images/twitter_512x512.png" width="36" height="36"/></a>
+			</div>
+		</div>
+	</div>
+	<div id="templates" style="display:none;">
+
+		<div class="wrapper" id="home">
+			<script type="text/javascript">
+			app.pageAlias["/"] = "home";
+			</script>
+		</div>
+		
+		<div class="wrapper" id="cloudprovider">
+			<script type="text/javascript">
+			app.pageAlias["/cloudprovider.html"] = "cloudprovider";
+			</script>
+			<div style="color:red;">
+				<h1>Cloud Provider</h1>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius dapibus convallis. Aenean at leo ut eros dignissim scelerisque ac quis massa. Nulla tincidunt ultricies lacus interdum tristique. Aliquam facilisis metus eu augue blandit non tincidunt lorem ornare. Quisque ut adipiscing ligula. Vestibulum faucibus ante id massa accumsan convallis id in orci. Proin id orci in sapien congue eleifend at ut risus. Fusce vulputate neque sed arcu dictum iaculis. Vivamus eu consequat magna. Pellentesque mi dui, facilisis vitae facilisis placerat, facilisis tincidunt neque. Nulla vitae facilisis massa. Mauris fermentum libero a massa consectetur nec placerat ligula lacinia.</p>
+				<p>Nunc non odio at lacus tristique pellentesque quis vel enim. Quisque in mi a nulla semper congue. Cras pharetra risus id tellus tristique eget sollicitudin sem interdum. Vivamus ac lacus est, in consectetur est. Curabitur eu metus sapien. Vestibulum sed felis tellus, quis hendrerit tellus. Vestibulum ante orci, tempor mattis consequat sed, facilisis id dui. Praesent feugiat mollis interdum. Donec eget sem felis, eget blandit ligula. Mauris at ante leo.</p>
+				<p>Quisque aliquam pulvinar cursus. Curabitur tincidunt pharetra velit, quis volutpat mauris ultrices id. Integer pharetra venenatis mauris ut ultrices. Quisque condimentum, lacus ac aliquam dapibus, diam sapien condimentum purus, id ultricies eros est eget magna. Curabitur fermentum velit in dolor commodo sit amet tempus justo commodo. Nam ut felis tortor. Curabitur gravida porttitor rhoncus. Donec porta, ipsum nec molestie rhoncus, metus lacus venenatis erat, at tempus libero sem non ligula. Curabitur tristique tempor est suscipit accumsan. Pellentesque a quam eget magna elementum varius. Sed facilisis venenatis nulla viverra vehicula. Nam est justo, vehicula sed laoreet eu, luctus quis lorem. Aliquam auctor orci quis arcu tincidunt scelerisque. In sed vehicula neque. Donec venenatis dictum mauris at fringilla. Quisque volutpat metus quis mi auctor quis scelerisque turpis porta.</p>
+				<p>Ut tristique, nibh in consequat lacinia, velit nulla pretium est, eget hendrerit lectus metus ut quam. Suspendisse ac diam a felis varius gravida. Aliquam scelerisque luctus erat sed posuere. Sed tincidunt, nisi vel consequat congue, eros leo cursus magna, vel consectetur augue tellus nec felis. Nullam adipiscing, purus hendrerit lacinia dignissim, tortor urna imperdiet nibh, at interdum mi lectus ut enim. Nulla ac rhoncus libero. Vestibulum enim diam, aliquet a commodo ut, placerat sed nibh. Nulla quis lorem id velit pharetra consectetur sed eu diam. Nullam eu diam risus, molestie consequat felis. Maecenas non tortor justo. Donec fermentum velit non ante mattis vitae rutrum ligula auctor. Praesent ut arcu et quam suscipit aliquam. Vivamus tincidunt dignissim consectetur. Vivamus viverra leo sagittis mauris convallis adipiscing.</p>
+			</div>
+		</div>
+		
+		<div class="wrapper" id="enduser">
+			<script type="text/javascript">
+			app.pageAlias["/enduser.html"] = "enduser";
+			</script>
+			<div style="color:green;">
+				<h1>End User</h1>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius dapibus convallis. Aenean at leo ut eros dignissim scelerisque ac quis massa. Nulla tincidunt ultricies lacus interdum tristique. Aliquam facilisis metus eu augue blandit non tincidunt lorem ornare. Quisque ut adipiscing ligula. Vestibulum faucibus ante id massa accumsan convallis id in orci. Proin id orci in sapien congue eleifend at ut risus. Fusce vulputate neque sed arcu dictum iaculis. Vivamus eu consequat magna. Pellentesque mi dui, facilisis vitae facilisis placerat, facilisis tincidunt neque. Nulla vitae facilisis massa. Mauris fermentum libero a massa consectetur nec placerat ligula lacinia.</p>
+				<p>Nunc non odio at lacus tristique pellentesque quis vel enim. Quisque in mi a nulla semper congue. Cras pharetra risus id tellus tristique eget sollicitudin sem interdum. Vivamus ac lacus est, in consectetur est. Curabitur eu metus sapien. Vestibulum sed felis tellus, quis hendrerit tellus. Vestibulum ante orci, tempor mattis consequat sed, facilisis id dui. Praesent feugiat mollis interdum. Donec eget sem felis, eget blandit ligula. Mauris at ante leo.</p>
+				<p>Quisque aliquam pulvinar cursus. Curabitur tincidunt pharetra velit, quis volutpat mauris ultrices id. Integer pharetra venenatis mauris ut ultrices. Quisque condimentum, lacus ac aliquam dapibus, diam sapien condimentum purus, id ultricies eros est eget magna. Curabitur fermentum velit in dolor commodo sit amet tempus justo commodo. Nam ut felis tortor. Curabitur gravida porttitor rhoncus. Donec porta, ipsum nec molestie rhoncus, metus lacus venenatis erat, at tempus libero sem non ligula. Curabitur tristique tempor est suscipit accumsan. Pellentesque a quam eget magna elementum varius. Sed facilisis venenatis nulla viverra vehicula. Nam est justo, vehicula sed laoreet eu, luctus quis lorem. Aliquam auctor orci quis arcu tincidunt scelerisque. In sed vehicula neque. Donec venenatis dictum mauris at fringilla. Quisque volutpat metus quis mi auctor quis scelerisque turpis porta.</p>
+				<p>Ut tristique, nibh in consequat lacinia, velit nulla pretium est, eget hendrerit lectus metus ut quam. Suspendisse ac diam a felis varius gravida. Aliquam scelerisque luctus erat sed posuere. Sed tincidunt, nisi vel consequat congue, eros leo cursus magna, vel consectetur augue tellus nec felis. Nullam adipiscing, purus hendrerit lacinia dignissim, tortor urna imperdiet nibh, at interdum mi lectus ut enim. Nulla ac rhoncus libero. Vestibulum enim diam, aliquet a commodo ut, placerat sed nibh. Nulla quis lorem id velit pharetra consectetur sed eu diam. Nullam eu diam risus, molestie consequat felis. Maecenas non tortor justo. Donec fermentum velit non ante mattis vitae rutrum ligula auctor. Praesent ut arcu et quam suscipit aliquam. Vivamus tincidunt dignissim consectetur. Vivamus viverra leo sagittis mauris convallis adipiscing.</p>
+			</div>
+		</div>
+
+
+		<div class="wrapper" id="aboutus">
+			<script type="text/javascript">
+			app.pageAlias["/aboutus.html"] = "aboutus";
+			</script>
+			<div style="color:blue;">
+				<h1>About Us</h1>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius dapibus convallis. Aenean at leo ut eros dignissim scelerisque ac quis massa. Nulla tincidunt ultricies lacus interdum tristique. Aliquam facilisis metus eu augue blandit non tincidunt lorem ornare. Quisque ut adipiscing ligula. Vestibulum faucibus ante id massa accumsan convallis id in orci. Proin id orci in sapien congue eleifend at ut risus. Fusce vulputate neque sed arcu dictum iaculis. Vivamus eu consequat magna. Pellentesque mi dui, facilisis vitae facilisis placerat, facilisis tincidunt neque. Nulla vitae facilisis massa. Mauris fermentum libero a massa consectetur nec placerat ligula lacinia.</p>
+				<p>Nunc non odio at lacus tristique pellentesque quis vel enim. Quisque in mi a nulla semper congue. Cras pharetra risus id tellus tristique eget sollicitudin sem interdum. Vivamus ac lacus est, in consectetur est. Curabitur eu metus sapien. Vestibulum sed felis tellus, quis hendrerit tellus. Vestibulum ante orci, tempor mattis consequat sed, facilisis id dui. Praesent feugiat mollis interdum. Donec eget sem felis, eget blandit ligula. Mauris at ante leo.</p>
+				<p>Quisque aliquam pulvinar cursus. Curabitur tincidunt pharetra velit, quis volutpat mauris ultrices id. Integer pharetra venenatis mauris ut ultrices. Quisque condimentum, lacus ac aliquam dapibus, diam sapien condimentum purus, id ultricies eros est eget magna. Curabitur fermentum velit in dolor commodo sit amet tempus justo commodo. Nam ut felis tortor. Curabitur gravida porttitor rhoncus. Donec porta, ipsum nec molestie rhoncus, metus lacus venenatis erat, at tempus libero sem non ligula. Curabitur tristique tempor est suscipit accumsan. Pellentesque a quam eget magna elementum varius. Sed facilisis venenatis nulla viverra vehicula. Nam est justo, vehicula sed laoreet eu, luctus quis lorem. Aliquam auctor orci quis arcu tincidunt scelerisque. In sed vehicula neque. Donec venenatis dictum mauris at fringilla. Quisque volutpat metus quis mi auctor quis scelerisque turpis porta.</p>
+				<p>Ut tristique, nibh in consequat lacinia, velit nulla pretium est, eget hendrerit lectus metus ut quam. Suspendisse ac diam a felis varius gravida. Aliquam scelerisque luctus erat sed posuere. Sed tincidunt, nisi vel consequat congue, eros leo cursus magna, vel consectetur augue tellus nec felis. Nullam adipiscing, purus hendrerit lacinia dignissim, tortor urna imperdiet nibh, at interdum mi lectus ut enim. Nulla ac rhoncus libero. Vestibulum enim diam, aliquet a commodo ut, placerat sed nibh. Nulla quis lorem id velit pharetra consectetur sed eu diam. Nullam eu diam risus, molestie consequat felis. Maecenas non tortor justo. Donec fermentum velit non ante mattis vitae rutrum ligula auctor. Praesent ut arcu et quam suscipit aliquam. Vivamus tincidunt dignissim consectetur. Vivamus viverra leo sagittis mauris convallis adipiscing.</p>
+			</div>			
+		</div>
+
+		<div class="wrapper" id="stub">
+			<script type="text/javascript">
+			app.pageAlias["/stub.html"] = "stub";
+			</script>			
+		</div>
+
+
+
+		<div id="404">
+			PAGE NOT FOUND
+		</div>
+		
+	
+<!--
+
+BELOW FOLLOWS AN EXAMPLE 'PAGE', INTENDED TO DEMONSTRATE THE PROPER SYNTAX FOR INTEGRATION INTO THE SITE
+
+-->
+		<div id="example">
+			<!-- The 'page' must begin with a script tag designating the pageAlias for URI parsing- this is important for parsing arrival links as well as intrasite links -->
+			<!-- If the 'page' needs any customized transition, init, or destroy functions, they may be defined in this tag as well. -->
+			<script type="text/javascript">
+				//app.pageAlias["/somelocation.html"] = "idOfEnclosingDiv"
+				app.pageAlias["/example.html"] = "example";
+				
+				/*
+				The below object (optional), which must be named the same as the id of the enclosing div, just as the pageAlias is set that way,
+				will contain any custom functions that will need to be specified for the page.  Any of these functions that are not customized
+				will be set to the default functions specified at the top of this file.  There are 4 possible functions that can be defined:
+				
+				init
+					Any code that needs to be executed by the page after it loads.  This includes setting up any animations that will occur on the page,
+					any ajax that needs to be loaded, RSS feeds that need to be set up, etc...
+					NOTE: any intervals that are set can be stored with the syntax app.currentIntervals.push(setInterval(...)); -- This will allow
+					the default destroy function to clean them up appropriately.
+					NOTE: init() will execute every time a page is loaded, regardless of whether it has previously been shown or not. The developer must
+					take care to not re-execute code that does not clean itself up -- for example if an RSS feed is loaded in init and populates a feed viewer
+					on the page, and that feed viewer is not emptied in destroy, the init() should check to see whether it has already been loaded.
+				destroy
+					Any code that needs to be executed to 'destroy' the page- this is mostly intended to clean up any repeating animations that are set
+					in init, so that there are not a growing number of intervals executing, slowing down the JS engine.  In most cases this can be accomplished
+					by simply leaving the default destroy function, as long as any intervals set in init() are pushed to the app.currentIntervals array.
+				transitionIn
+					Custom code to transition the page into view. Takes one parameter, the jquery selected page to be transitioned in.  The default function 
+					fades in the page over the course of 1 second.  The transitionIn function should return the number of milliseconds that the transition process
+					takes in order to properly deal with delays.
+					NOTE: The developer should be careful of any specified transitions in, to specify them within the context of the page.  For example,
+					$('p').slideRight(500);
+					VS.
+					$('p',$page).slideRight(500);
+					The first will make all paragraphs in the entire DOM slide into view from the left, while the second will make all those on the transitioning page
+					slide in instead.
+				transitionOut
+					As with the transitionIn function, except for leaving the page.  The developer much ensure the transitionOut delay is returned accurately, as this
+					can cause major problems if it is not specified.
+				*/
+				app.pages.example = {
+					init : function(){
+						//some init code
+					},
+					destroy : function(){
+						//some destroy code
+					},
+					transitionIn : function($page){
+						//some transitionIn code
+						//return delay
+					},
+					transitionOut : function($page){
+						//some transitionOut code
+						//return delay
+					}
+				};
+			</script>
+			
+			<h1>PAGE CONTENT GOES HERE</h1>
+			
+		
+		</div>
+		<!-- END EXAMPLE 'PAGE' -->
+		
+		
+		<div id="springtest">
+			<script type="text/javascript">
+				app.pageAlias["/springtest.html"] = "springtest";
+			</script>
+			<div class="clear"></div>
+			<div id="springContainer">
+				<div id="springCanvas">
+					<div id="springReactor"></div>
+				</div>
+			</div>
+			<div class="clear"></div>
+			
+			
+			
+			<script type="text/javascript">
+			
+				var containerWidth = 958;
+				var containerOuterWidth = 960;
+				var pushLength = 200;
+				var outerBuffer = 300;
+				
+				var attrSpring = new mSpring({
+					onSpringStart: function() {
+						$("#springReactor").css("background", "#FFAAAA");
+					},
+					onSpringChange: function(massPos, springData) {
+						$("#springReactor").css("left",massPos-($("#springReactor").outerWidth()/2) + 'px');
+					},
+					onSpringRest: function() {
+						$("#springReactor").css("background", "#FF0000");
+					}	
+				});
+				
+				attrSpring.setSpringParameters(10, 200, 15);
+				attrSpring.massPos = containerWidth/2;
+				$("#springReactor").css("left",attrSpring.massPos-($("#springReactor").outerWidth()/2) + 'px');
+				//attrSpring.start(undefined,undefined,undefined,958);
+				
+				//var engageSpring = function(){
+				//	
+				//}
+				
+				$("#springCanvas").mouseover(function(event){
+					$("#springCanvas").mousemove(function(event){
+						var anchorPos = containerWidth/2;
+						var mousePos = event.clientX;
+						//console.log(event.clientX);
+						if($(window).width() > containerOuterWidth){
+							mousePos -= ($(window).width() - containerWidth)/2
+						} 
+						//var currentPos = $("#springReactor").css("left");
+						/*
+						var currentPos = attrSpring.massPos;
+						//console.log(mousePos+".."+currentPos);
+						if(mousePos < currentPos) {
+							if(mousePos > containerWidth/2-pushLength){
+								anchorPos = mousePos + pushLength;
+							}
+						} else {
+							if(mousePos < containerWidth/2+pushLength){
+								anchorPos = mousePos - pushLength;
+							}
+						}
+						*/
+						anchorPos = mousePos;
+						//console.log(mousePos +".."+anchorPos);
+						if(anchorPos > containerWidth - outerBuffer)
+							anchorPos = containerWidth - outerBuffer;
+						else if(anchorPos < 0 + outerBuffer)
+							anchorPos = 0 + outerBuffer;
+						
+						attrSpring.start(undefined,undefined,undefined, anchorPos);
+					});
+				});
+				
+				
+				
+				$("#springCanvas").mouseout(function(event){
+					var reltg = (event.relatedTarget) ? event.relatedTarget : event.toElement;
+					while (reltg != null && reltg.tagName != "BODY"){
+						if (reltg.id == this.id){return;}
+						reltg = reltg.parentNode;
+					}
+					$("#springCanvas").unbind('mousemove');
+					attrSpring.start(undefined,undefined,undefined,958/2);
+				});
+				
+			</script>
+		</div>
+		
+	</div>
+
+<script type="text/javascript">
+
+		// make all links in document clickable
+		var ourURI = document.URL;
+		if (ourURI.indexOf('#') >= 0) { ourURI = ourURI.substring(0,ourURI.indexOf('#')); }	// strip after #
+		for (var ls = document.links, numLinks = ls.length, i=0; i<numLinks; i++){
+			if (ls[i].href  == ourURI) {
+				// this link points at us, skip 
+				}
+			else if (ls[i].href.substring(0,ourURI.length) == ourURI) {
+				console.log('rewrite - '+ls[i].href);
+				ls[i].onclick = function(e) { 
+					showFromLocation(e.currentTarget); 
+					return(false); 
+					};
+				}
+			// console.log(ls[i].href+" "+ls[i].target);
+			}
+
+</script>
+
+</body>
+
+</html>
