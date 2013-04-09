@@ -168,7 +168,8 @@ VERSION: 2013-4-8-13-11-00
 			}, delay);
 			
 		};
-		
+			
+
 		//TESTING SCRIPT
 		
 		//var showRandomPage = function(){
@@ -195,9 +196,9 @@ VERSION: 2013-4-8-13-11-00
 		<div id="header">
 			<a id="homeLink" href="#!/"></a>
 			<div id="headerTabs">
-				<a href="#!/cloudprovider.html">Cloud Provider</a>
-				<a href="#!/enduser.html">End User</a>
-				<a href="#!/aboutus.html">About Us</a>		
+				<a id="cloudTab" href="#!/cloudprovider.html">Cloud Provider</a>
+				<a id="enduserTab" href="#!/enduser.html">End User</a>
+				<a id="aboutTab" href="#!/aboutus.html">About Us</a>		
 			</div>
 		</div>
 	
@@ -225,6 +226,15 @@ VERSION: 2013-4-8-13-11-00
 		<div id="cloudprovider">
 			<script type="text/javascript">
 			app.pageAlias["/cloudprovider.html"] = "cloudprovider";
+			
+			app.pages.cloudprovider = {
+				init : function(){
+					$('#cloudTab').addClass('activeTab');
+				},
+				destroy : function(){
+					$('#cloudTab').removeClass('activeTab');
+				}
+			}
 			</script>
 			<div class="container">
 				<div class="leftColumn">

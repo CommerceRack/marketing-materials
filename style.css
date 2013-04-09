@@ -56,7 +56,6 @@ End Homepage Header CSS */
 /* Main Content Header CSS */
 #wrapper {
 	width: 1240px;
-	height: 720px;
 	margin: 0px auto;
 	background-color: #dcddde;
 	padding-top: 180px;
@@ -104,7 +103,7 @@ End Homepage Header CSS */
 	font-size: 24px;
 	background: #dcddde;
 }
-#headerTabs a:active{
+#headerTabs a.activeTab{
 	color: #747477;
 	font-size: 24px;
 	background: #dcddde;
