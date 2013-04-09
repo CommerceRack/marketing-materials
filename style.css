@@ -19,20 +19,22 @@ body{
 	position: fixed;
 	top: 0px;
 }
-#homeLink{
-	display: block;
-	width: 1184px;
-	height: 41px;
-	position: absolute;
-	top: 277px;
-	left:56px;
-}
+
 #headerTabs {
 	position: absolute;
 	bottom: 25px;
 	left: 77px;
 }
-
+#homeLink{
+	display: block;
+	height: 41px;
+	left:56px;
+	position: absolute;
+	z-index: 10;
+	top: 15px;
+	width: 1182px;
+	outline:1px solid red;
+}
 #headerTabs a{
 	color: #f8e00e;
 	font-family: 'Maven Pro', sans-serif;
@@ -58,23 +60,26 @@ End Homepage Header CSS */
 	width: 1240px;
 	margin: 0px auto;
 	background-color: #dcddde;
-	padding-top: 180px;
+	padding-top: 638px;
 	
 }
 #header{
-	background: url('images/mainContent_header.jpg') no-repeat left top;
+	overflow: hidden;
 	width: 1240px;
-	height: 180px;
+	height: 638px;
 	position: fixed;
 	top: 0px;
 }
+#headerBG{
+	position:absolute;
+	z-index: 0;
+}
 #homeLink{
 	display: block;
-	height: 41px;
-	left:56px;
 	position: absolute;
-	top: 47px;
-	width: 1182px;
+	top: 245px;
+	left:56px;
+	z-index: 10;
 }
 #headerTabs {
 	position: absolute;
@@ -99,9 +104,7 @@ End Homepage Header CSS */
 	margin: 0px 1px;
 }
 #headerTabs a:hover{
-	color: #747477;
-	font-size: 24px;
-	background: #dcddde;
+	color: #dcddde;
 }
 #headerTabs a.activeTab{
 	color: #747477;

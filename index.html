@@ -194,7 +194,8 @@ VERSION: 2013-4-8-13-11-00
 <body>
 	<div id="wrapper">
 		<div id="header">
-			<a id="homeLink" href="#!/"></a>
+			<a id="homeLink" href="#!/"><img src="images/commerce_rack_logo_full.png"></a>
+			<img id="headerBG" src="images/homepage-main-image.png" />
 			<div id="headerTabs">
 				<a id="cloudTab" href="#!/cloudprovider.html">Cloud Provider</a>
 				<a id="enduserTab" href="#!/enduser.html">End User</a>
@@ -219,7 +220,25 @@ VERSION: 2013-4-8-13-11-00
 
 		<div id="home">
 			<script type="text/javascript">
+			
+			
+			
 			app.pageAlias["/"] = "home";
+			
+			app.pages.home = {
+				init : function(){
+					$('#header').animate({'height':638},1000);
+					$('#headerBG').animate({'left':0, 'top': 0, 'width':1240},1000);
+					$('#wrapper').animate({'padding-top':638},1000);
+					$('#homeLink').animate({'top': 245},1000);
+				},
+				destroy : function(){
+					$('#header').animate({'height':200},1000);
+					$('#headerBG').animate({'left':146, 'top':-186, 'width': 960},1000);
+					$('#wrapper').animate({'padding-top':200},1000);
+					$('#homeLink').animate({'top': 15},1000);
+				}
+			}
 			</script>
 		</div>
 		
@@ -239,8 +258,8 @@ VERSION: 2013-4-8-13-11-00
 			<div class="container">
 				<div class="leftColumn">
 					<div class="leftVideo">
-						<iframe width="400" height="225" src="https://www.youtube.com/embed/xq6VYLba7uY?rel=0" frameborder="0" allowfullscreen></iframe>
-						<iframe width="345" height="194" src="https://www.youtube.com/embed/xq6VYLba7uY?rel=0" frameborder="0" allowfullscreen></iframe>
+						<iframe width="400" height="225" src="https://www.youtube.com/embed/xq6VYLba7uY?rel=0&wmode=transparent" frameborder="0" allowfullscreen></iframe>
+						<iframe width="345" height="194" src="https://www.youtube.com/embed/xq6VYLba7uY?rel=0&wmode=transparent" frameborder="0" allowfullscreen></iframe>
 					</div>
 					<ul>
 						<li>Lorem ipsum dolor sit amet</li>
@@ -269,6 +288,15 @@ VERSION: 2013-4-8-13-11-00
 		<div id="enduser">
 			<script type="text/javascript">
 			app.pageAlias["/enduser.html"] = "enduser";
+			
+			app.pages.enduser = {
+				init : function(){
+					$('#enduserTab').addClass('activeTab');
+				},
+				destroy : function(){
+					$('#enduserTab').removeClass('activeTab');
+				}
+			}			
 			</script>
 			<div class="container">
 				<h1>End User</h1>
@@ -287,6 +315,15 @@ VERSION: 2013-4-8-13-11-00
 		<div id="aboutus">
 			<script type="text/javascript">
 			app.pageAlias["/aboutus.html"] = "aboutus";
+			
+			app.pages.aboutus = {
+				init : function(){
+					$('#aboutTab').addClass('activeTab');
+				},
+				destroy : function(){
+					$('#aboutTab').removeClass('activeTab');
+				}
+			}			
 			</script>
 			<div class="container">
 				<h1>About Us</h1>
@@ -378,96 +415,6 @@ BELOW FOLLOWS AN EXAMPLE 'PAGE', INTENDED TO DEMONSTRATE THE PROPER SYNTAX FOR I
 		</div>
 		<!-- END EXAMPLE 'PAGE' -->
 		
-		
-		<div id="springtest">
-			<script type="text/javascript">
-				app.pageAlias["/springtest.html"] = "springtest";
-			</script>
-			<div class="clear"></div>
-			<div id="springContainer">
-				<div id="springCanvas">
-					<div id="springReactor"></div>
-				</div>
-			</div>
-			<div class="clear"></div>
-			
-			
-			
-			<script type="text/javascript">
-			
-				var containerWidth = 958;
-				var containerOuterWidth = 960;
-				var pushLength = 200;
-				var outerBuffer = 300;
-				
-				var attrSpring = new mSpring({
-					onSpringStart: function() {
-						$("#springReactor").css("background", "#FFAAAA");
-					},
-					onSpringChange: function(massPos, springData) {
-						$("#springReactor").css("left",massPos-($("#springReactor").outerWidth()/2) + 'px');
-					},
-					onSpringRest: function() {
-						$("#springReactor").css("background", "#FF0000");
-					}	
-				});
-				
-				attrSpring.setSpringParameters(10, 200, 15);
-				attrSpring.massPos = containerWidth/2;
-				$("#springReactor").css("left",attrSpring.massPos-($("#springReactor").outerWidth()/2) + 'px');
-				//attrSpring.start(undefined,undefined,undefined,958);
-				
-				//var engageSpring = function(){
-				//	
-				//}
-				
-				$("#springCanvas").mouseover(function(event){
-					$("#springCanvas").mousemove(function(event){
-						var anchorPos = containerWidth/2;
-						var mousePos = event.clientX;
-						//console.log(event.clientX);
-						if($(window).width() > containerOuterWidth){
-							mousePos -= ($(window).width() - containerWidth)/2
-						} 
-						//var currentPos = $("#springReactor").css("left");
-						/*
-						var currentPos = attrSpring.massPos;
-						//console.log(mousePos+".."+currentPos);
-						if(mousePos < currentPos) {
-							if(mousePos > containerWidth/2-pushLength){
-								anchorPos = mousePos + pushLength;
-							}
-						} else {
-							if(mousePos < containerWidth/2+pushLength){
-								anchorPos = mousePos - pushLength;
-							}
-						}
-						*/
-						anchorPos = mousePos;
-						//console.log(mousePos +".."+anchorPos);
-						if(anchorPos > containerWidth - outerBuffer)
-							anchorPos = containerWidth - outerBuffer;
-						else if(anchorPos < 0 + outerBuffer)
-							anchorPos = 0 + outerBuffer;
-						
-						attrSpring.start(undefined,undefined,undefined, anchorPos);
-					});
-				});
-				
-				
-				
-				$("#springCanvas").mouseout(function(event){
-					var reltg = (event.relatedTarget) ? event.relatedTarget : event.toElement;
-					while (reltg != null && reltg.tagName != "BODY"){
-						if (reltg.id == this.id){return;}
-						reltg = reltg.parentNode;
-					}
-					$("#springCanvas").unbind('mousemove');
-					attrSpring.start(undefined,undefined,undefined,958/2);
-				});
-				
-			</script>
-		</div>
 		
 	</div>
 
