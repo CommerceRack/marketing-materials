@@ -3,59 +3,7 @@ body{
 	background-color: #dcddde;
 }
 
-
-/* Homepage header CSS
-#wrapper {
-	width: 1240px;
-	margin: 0px auto;
-	background-color: #dcddde;
-	padding-top: 638px; 
-	
-}
-#header{
-	background: url('images/homepage_header.jpg') no-repeat left top;
-	width: 1240px;
-	height: 638px;
-	position: fixed;
-	top: 0px;
-}
-
-#headerTabs {
-	position: absolute;
-	bottom: 25px;
-	left: 77px;
-}
-#homeLink{
-	display: block;
-	height: 41px;
-	left:56px;
-	position: absolute;
-	z-index: 10;
-	top: 15px;
-	width: 1182px;
-	outline:1px solid red;
-}
-#headerTabs a{
-	color: #f8e00e;
-	font-family: 'Maven Pro', sans-serif;
-	font-size: 22px;
-	font-weight: 500;
-    text-decoration: none;
-	width: 360px;
-	height: 48px;
-	line-height: 48px;
-	background: #6d6e71;
-	display: block;
-	float: left;
-	text-align: center;
-	border-top-right-radius: 16px;
-	border-top-left-radius: 16px;
-	margin: 0px 1px;
-}
-
-End Homepage Header CSS */
-
-/* Main Content Header CSS */
+/* Header/Homepage CSS start */
 #wrapper {
 	width: 1240px;
 	margin: 0px auto;
@@ -76,7 +24,6 @@ End Homepage Header CSS */
 	width: 100%;
 	position: absolute;
 	z-index: 1;
-	
 	background: -moz-radial-gradient(center, ellipse cover,  rgba(111,111,111,0) 0%, rgba(111,111,111,0) 35%, rgba(111,111,111,0.75) 86%, rgba(111,111,111,0.75) 100%); /* FF3.6+ */
 	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(111,111,111,0)), color-stop(35%,rgba(111,111,111,0)), color-stop(86%,rgba(111,111,111,0.75)), color-stop(100%,rgba(111,111,111,0.75))); /* Chrome,Safari4+ */
 	background: -webkit-radial-gradient(center, ellipse cover,  rgba(111,111,111,0) 0%,rgba(111,111,111,0) 35%,rgba(111,111,111,0.75) 86%,rgba(111,111,111,0.75) 100%); /* Chrome10+,Safari5.1+ */
@@ -84,7 +31,6 @@ End Homepage Header CSS */
 	background: -ms-radial-gradient(center, ellipse cover,  rgba(111,111,111,0) 0%,rgba(111,111,111,0) 35%,rgba(111,111,111,0.75) 86%,rgba(111,111,111,0.75) 100%); /* IE10+ */
 	background: radial-gradient(ellipse at center,  rgba(111,111,111,0) 0%,rgba(111,111,111,0) 35%,rgba(111,111,111,0.75) 86%,rgba(111,111,111,0.75) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006f6f6f', endColorstr='#bf6f6f6f',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-
 }
 #headerBG{
 	position:absolute;
@@ -141,7 +87,14 @@ End Homepage Header CSS */
 	background: #a9aaad;
 	opacity: 0.4;
 }
-/* Main Content Header CSS */
+#homepageWords{
+	position: absolute;
+	z-index: 7;
+	right: 103px;
+	bottom: 103px;
+}
+/* Header/Homepage CSS end */
+
 /* Start Footer CSS */
 #footer{
 	float:left;

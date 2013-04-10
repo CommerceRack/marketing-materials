@@ -198,6 +198,7 @@ VERSION: 2013-4-8-13-11-00
 			<div id="grayBar"></div>
 			<a id="homeLink" href="#!/"><img src="images/commerce_rack_logo_full.png"></a>
 			<img id="headerBG" src="images/main_server_room01.jpg" />
+			<img id="homepageWords" src="images/plugin_sell_simple.png" />
 			<div id="headerTabs">
 				<a id="cloudTab" href="#!/cloudprovider.html">Cloud Provider</a>
 				<a id="enduserTab" href="#!/enduser.html">End User</a>
@@ -234,6 +235,7 @@ VERSION: 2013-4-8-13-11-00
 					$('#wrapper').animate({'padding-top':638},1000);
 					$('#homeLink').animate({'top': 245},1000);
 					$('#headerTabs').animate({'bottom': 11},1000);
+					$('#homepageWords').fadeIn(700);
 				},
 				destroy : function(){
 					$('#header').animate({'height':200},1000);
@@ -241,6 +243,7 @@ VERSION: 2013-4-8-13-11-00
 					$('#wrapper').animate({'padding-top':200},1000);
 					$('#homeLink').animate({'top': 15},1000);
 					$('#headerTabs').animate({'bottom': 0},1000);
+					$('#homepageWords').fadeOut(700);
 				}
 			}
 			</script>
