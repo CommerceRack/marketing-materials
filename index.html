@@ -194,8 +194,10 @@ VERSION: 2013-4-8-13-11-00
 <body>
 	<div id="wrapper">
 		<div id="header">
+			<div id="headerGradient"></div>
+			<div id="grayBar"></div>
 			<a id="homeLink" href="#!/"><img src="images/commerce_rack_logo_full.png"></a>
-			<img id="headerBG" src="images/homepage-main-image.png" />
+			<img id="headerBG" src="images/main_server_room01.jpg" />
 			<div id="headerTabs">
 				<a id="cloudTab" href="#!/cloudprovider.html">Cloud Provider</a>
 				<a id="enduserTab" href="#!/enduser.html">End User</a>
@@ -207,13 +209,13 @@ VERSION: 2013-4-8-13-11-00
 		</div>
 		
 		<div id="footer" class="footer">
-			<div class="copyright">&copy; 2013 Zoovy, Inc. All right reserved. All symbols and logos are the property of their respective owner.</div>
-			
 			<div id="socialIcons">
 			<a href="plus.google.com"><img src="images/googleplus.png" width="45" height="45"/></a>
 			<a href="youtube.com"><img src="images/youtube.png" width="45" height="45" /></a>
 			<a href="twitter.com"><img src="images/twitter.png" width="45" height="45"/></a>
 			</div>
+			<div class="copyright">&copy; 2013 Zoovy, Inc. All right reserved. All symbols and logos are the property of their respective owner.</div>
+			
 		</div>
 	</div>
 	<div id="templates" style="display:none;">
@@ -228,15 +230,17 @@ VERSION: 2013-4-8-13-11-00
 			app.pages.home = {
 				init : function(){
 					$('#header').animate({'height':638},1000);
-					$('#headerBG').animate({'left':0, 'top': 0, 'width':1240},1000);
+					$('#headerBG').animate({'left':-138, 'top': -47, 'width': 1600},1000);
 					$('#wrapper').animate({'padding-top':638},1000);
 					$('#homeLink').animate({'top': 245},1000);
+					$('#headerTabs').animate({'bottom': 11},1000);
 				},
 				destroy : function(){
 					$('#header').animate({'height':200},1000);
-					$('#headerBG').animate({'left':146, 'top':-186, 'width': 960},1000);
+					$('#headerBG').animate({'left':0, 'top':-213, 'width':1240},1000);
 					$('#wrapper').animate({'padding-top':200},1000);
 					$('#homeLink').animate({'top': 15},1000);
+					$('#headerTabs').animate({'bottom': 0},1000);
 				}
 			}
 			</script>
@@ -258,8 +262,7 @@ VERSION: 2013-4-8-13-11-00
 			<div class="container">
 				<div class="leftColumn">
 					<div class="leftVideo">
-						<iframe width="400" height="225" src="https://www.youtube.com/embed/xq6VYLba7uY?rel=0&wmode=transparent" frameborder="0" allowfullscreen></iframe>
-						<iframe width="345" height="194" src="https://www.youtube.com/embed/xq6VYLba7uY?rel=0&wmode=transparent" frameborder="0" allowfullscreen></iframe>
+						<iframe width="330" height="186" src="http://www.youtube.com/embed/xq6VYLba7uY?rel=0&wmode=transparent" frameborder="0" allowfullscreen></iframe>
 					</div>
 					<ul>
 						<li>Lorem ipsum dolor sit amet</li>
