@@ -2,7 +2,7 @@ body{
 	margin:0px;
 	background-color: #dcddde;
 }
-
+html {overflow-y: scroll;}
 /* Header/Homepage CSS start */
 #wrapper {
 	width: 1240px;
