@@ -238,7 +238,7 @@ VERSION: 2013-4-8-13-11-00
 			<a href="youtube.com"><img src="images/youtube.png" width="45" height="45" /></a>
 			<a href="twitter.com"><img src="images/twitter.png" width="45" height="45"/></a>
 			</div>
-			<div class="copyright">&copy; 2013 Zoovy, Inc. All right reserved. All symbols and logos are the property of their respective owner.</div>
+			<div class="copyright">&copy; 2013 Zoovy, Inc. All right reserved. All symbols and logos are the property of their respective owners.</div>
 			
 		</div>
 	</div>
@@ -257,12 +257,12 @@ VERSION: 2013-4-8-13-11-00
 			};
 			
 			var hideBlade = function(){
-				$('#lightSaberBlade').animate({'width': 0},1200);
+				$('#lightSaberBlade').animate({'width': 0},1000);
 				$("#lightSaberBlade").removeClass('flameOn');
 			};
 			
 			var extendBlade = function(){
-				$('#lightSaberBlade').animate({'width': 758},1200);
+				$('#lightSaberBlade').animate({'width': 758},1000);
 				$("#lightSaberBlade").addClass('flameOn');
 			};
 			
@@ -270,8 +270,9 @@ VERSION: 2013-4-8-13-11-00
 				$('#header').animate({'height':638},1000);
 				$('#headerBG').animate({'left':-138, 'top': -47, 'width': 1600},1000);
 				$('#wrapper').animate({'padding-top':638},1000);
-				$('#clickLogo').animate({'top': 245},1000);
+				$('#clickLogo').animate({'top': 238},1000);
 				$('#clickLogo').unbind('click');
+				$('#logo').unbind('click');
 				$('#logo').click(function(){toggleLightsaber();});
 				$('#headerTabs').animate({'bottom': 11},1000);
 				$('#homepageWords').fadeIn(1000);
@@ -385,12 +386,17 @@ VERSION: 2013-4-8-13-11-00
 			}			
 			</script>
 			<div class="container">
-				<h1>About Us</h1>
-				<h3>Mission Statement:</h3>
-				<p>Continue to develop a truly scalable on-demand e-commerce solution which provides tools and services for our merchants to streamline operations while increasing sales.</p>
-				<p>CommerceRack is the result of Zoovy, Inc.’s 13 years of experience in the e-commerce merchant services arena.</p>
-				<p>Brian Horakh founded Zoovy in Feb 2000 as a means for allowing small to mid-size e-commerce businesses a robust, yet affordable eCommerce platform. Zoovy is among the forerunners of marketplace integrated e&ndash;commerce solutions such as Amazon.com, Buy.com, eBay, Sears, and many other top comparions shopping services. Zoovy offers complete hosted e&ndash;commerce software solutions (SaaS). Zoovy's single source platform brought every aspect of a business together while simplifying processes and allowing product management, multi-channel listings, sales, inventory, shipping, accounting and storefronts to work together while updating in real time.</p>
-				<p>With over 13 years experience, while supporting 5000 websites, Zoovy, with anyCommerce, continues to be a leader in e-commerce merchant services. Our strategy: The easy things should be easy &ndash; the hard things should be possible. Zoovy removes barriers to growth, and allows SMBs to compete at the same level with large corporations.</p>
+				<div class="leftColumn">
+					<img src="images/carlsbad_building-209x257.jpg">
+				</div>
+				<div class="rightColumn">
+					<h1>About Us</h1>
+					<h3>Mission Statement:</h3>
+					<p>Continue to develop a truly scalable on-demand e-commerce solution which provides tools and services for our merchants to streamline operations while increasing sales.</p>
+					<p>CommerceRack is the result of Zoovy, Inc.’s 13 years of experience in the e-commerce merchant services arena.</p>
+					<p>Brian Horakh founded Zoovy in Feb 2000 as a means for allowing small to mid-size e-commerce businesses a robust, yet affordable eCommerce platform. Zoovy is among the forerunners of marketplace integrated e&ndash;commerce solutions such as Amazon.com, Buy.com, eBay, Sears, and many other top comparions shopping services. Zoovy offers complete hosted e&ndash;commerce software solutions (SaaS). Zoovy's single source platform brought every aspect of a business together while simplifying processes and allowing product management, multi-channel listings, sales, inventory, shipping, accounting and storefronts to work together while updating in real time.</p>
+					<p>With over 13 years experience, while supporting 5000 websites, Zoovy, with anyCommerce, continues to be a leader in e-commerce merchant services. Our strategy: The easy things should be easy &ndash; the hard things should be possible. Zoovy removes barriers to growth, and allows SMBs to compete at the same level with large corporations.</p>
+				</div>
 			</div>			
 		</div>
 
