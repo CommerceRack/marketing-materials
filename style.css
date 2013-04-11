@@ -1,6 +1,6 @@
 body{
 	margin:0px;
-	background-color: #dcddde;
+	background-color: #a9aaad;
 }
 html {overflow-y: scroll;}
 /* Header/Homepage CSS start */
@@ -129,6 +129,7 @@ html {overflow-y: scroll;}
 	width:1056px;
 	padding:15px 92px;
 	margin-bottom: 20px;
+	background-color: #DCDDDE;
 }
 .container h1{
 	font-family: 'Maven Pro', sans-serif;
