@@ -39,6 +39,7 @@ html {overflow-y: scroll;}
 	top: -47px; 
 	width: 1600px;
 }
+/*
 #homeLink{
 	display: block;
 	position: absolute;
@@ -46,6 +47,7 @@ html {overflow-y: scroll;}
 	left:56px;
 	z-index: 10;
 }
+*/
 #headerTabs {
 	position: absolute;
 	left: 77px;
@@ -91,6 +93,32 @@ html {overflow-y: scroll;}
 	z-index: 7;
 	right: 103px;
 	bottom: 103px;
+}
+#clickLogo{
+	display:block;
+	position: relative;
+	top: 245px;
+	left:56px;
+	z-index: 10;
+	width:1184px;
+	height: 116px;
+}
+#logo{
+	width: 444px;
+	height: 116px;
+	display: block;
+	position:absolute;
+	z-index: 9;
+}
+#lightSaberBlade{
+	background:url("images/yellow_bar_strip_w-glow.png") top left repeat-x;
+	width: 758px;
+	height: 116px;
+	display:block;
+	position:absolute;
+	z-index: 8;
+	top: 9px;
+	left: 426px;
 }
 /* Header/Homepage CSS end */
 

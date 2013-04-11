@@ -76,6 +76,9 @@ VERSION: 2013-4-8-13-11-00
 			//set current template (page handler)
 			if(document.URL.indexOf("#!") !== -1){
 				path = document.URL.split("#!")[1];
+				if(path !== "/"){
+					reduceHeader();
+				}
 				showFromLocation(document.URL.split("#!")[1]);
 			} else {
 				showFromLocation("/");
@@ -86,6 +89,20 @@ VERSION: 2013-4-8-13-11-00
 					handlePopState(event.state);
 				}
 			}
+			
+			var ourURI = document.URL;
+			if (ourURI.indexOf('#') >= 0) { ourURI = ourURI.substring(0,ourURI.indexOf('#')); }	// strip after #
+			
+			
+					
+			//rewrite all links
+			$('a').each(function(){
+				if($(this).attr('href').indexOf('#!')>=0){
+					$(this).click(function(){
+						showFromLocation($(this).attr('href'));
+					});
+				}
+			});
 			
 		});
 		
@@ -196,7 +213,13 @@ VERSION: 2013-4-8-13-11-00
 		<div id="header">
 			<div id="headerGradient"></div>
 			<div id="grayBar"></div>
+			<!--
 			<a id="homeLink" href="#!/"><img src="images/commerce_rack_logo_full.png"></a>
+			-->
+			<a href="#!/" id="clickLogo">
+				<img id="logo" src="images/cr_logo_w-glow01.png">
+				<div id="lightSaberBlade" class="flameOn"></div>
+			</a>
 			<img id="headerBG" src="images/main_server_room01.jpg" />
 			<img id="homepageWords" src="images/plugin_sell_simple.png" />
 			<div id="headerTabs">
@@ -211,7 +234,7 @@ VERSION: 2013-4-8-13-11-00
 		
 		<div id="footer" class="footer">
 			<div id="socialIcons">
-			<a href="plus.google.com"><img src="images/googleplus.png" width="45" height="45"/></a>
+			<a target="_blank" href="plus.google.com"><img src="images/googleplus.png" width="45" height="45"/></a>
 			<a href="youtube.com"><img src="images/youtube.png" width="45" height="45" /></a>
 			<a href="twitter.com"><img src="images/twitter.png" width="45" height="45"/></a>
 			</div>
@@ -224,26 +247,56 @@ VERSION: 2013-4-8-13-11-00
 		<div id="home">
 			<script type="text/javascript">
 			
+			var toggleLightsaber = function(){
+				if($("#lightSaberBlade").hasClass('flameOn')){
+					//hide blade
+					hideBlade();
+				} else {
+					extendBlade();
+				}
+			};
 			
+			var hideBlade = function(){
+				$('#lightSaberBlade').animate({'width': 0},1200);
+				$("#lightSaberBlade").removeClass('flameOn');
+			};
+			
+			var extendBlade = function(){
+				$('#lightSaberBlade').animate({'width': 758},1200);
+				$("#lightSaberBlade").addClass('flameOn');
+			};
+			
+			var expandHeader = function(){
+				$('#header').animate({'height':638},1000);
+				$('#headerBG').animate({'left':-138, 'top': -47, 'width': 1600},1000);
+				$('#wrapper').animate({'padding-top':638},1000);
+				$('#clickLogo').animate({'top': 245},1000);
+				$('#clickLogo').unbind('click');
+				$('#logo').click(function(){toggleLightsaber();});
+				$('#headerTabs').animate({'bottom': 11},1000);
+				$('#homepageWords').fadeIn(1000);
+			};
+			var reduceHeader = function(){
+				$('#header').animate({'height':200},1000);
+				$('#headerBG').animate({'left':0, 'top':-213, 'width':1240},1000);
+				$('#wrapper').animate({'padding-top':200},1000);
+				$('#clickLogo').animate({'top': 15},1000);
+				$('#clickLogo').unbind('click');
+				$('#logo').unbind('click');
+				extendBlade();
+				$('#clickLogo').click(function(){showFromLocation('#!/')});
+				$('#headerTabs').animate({'bottom': 0},1000);
+				$('#homepageWords').fadeOut(500);
+			};
 			
 			app.pageAlias["/"] = "home";
 			
 			app.pages.home = {
 				init : function(){
-					$('#header').animate({'height':638},1000);
-					$('#headerBG').animate({'left':-138, 'top': -47, 'width': 1600},1000);
-					$('#wrapper').animate({'padding-top':638},1000);
-					$('#homeLink').animate({'top': 245},1000);
-					$('#headerTabs').animate({'bottom': 11},1000);
-					$('#homepageWords').fadeIn(1000);
+					expandHeader();
 				},
 				destroy : function(){
-					$('#header').animate({'height':200},1000);
-					$('#headerBG').animate({'left':0, 'top':-213, 'width':1240},1000);
-					$('#wrapper').animate({'padding-top':200},1000);
-					$('#homeLink').animate({'top': 15},1000);
-					$('#headerTabs').animate({'bottom': 0},1000);
-					$('#homepageWords').fadeOut(500);
+					reduceHeader();
 				}
 			}
 			</script>
@@ -425,7 +478,7 @@ BELOW FOLLOWS AN EXAMPLE 'PAGE', INTENDED TO DEMONSTRATE THE PROPER SYNTAX FOR I
 	</div>
 
 <script type="text/javascript">
-
+/*
 		// make all links in document clickable
 		var ourURI = document.URL;
 		if (ourURI.indexOf('#') >= 0) { ourURI = ourURI.substring(0,ourURI.indexOf('#')); }	// strip after #
@@ -442,7 +495,7 @@ BELOW FOLLOWS AN EXAMPLE 'PAGE', INTENDED TO DEMONSTRATE THE PROPER SYNTAX FOR I
 				}
 			// console.log(ls[i].href+" "+ls[i].target);
 			}
-
+*/
 </script>
 
 </body>
