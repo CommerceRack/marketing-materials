@@ -181,6 +181,20 @@ html {overflow-y: scroll;}
     padding: 0;
     text-align: justify;
 }
+.container ul li {
+	font-family: 'Maven Pro', sans-serif;
+	color: #58585a;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.35;
+	margin-left: 15px;
+}
+.container ul li.example{
+	font-size: 17px;
+	list-style: none outside none;
+	padding-top:10px;
+	font-style:italic;
+}
 /* Cloud Provider page */
 .leftColumn{
 	width: 330px;
@@ -198,13 +212,16 @@ html {overflow-y: scroll;}
 	margin-top: 30px;
 }
 .leftColumn ul{
+	width:310px;
+	margin-left:-20px;
+}
+.leftColumn ul li{
 	font-family: 'Maven Pro', sans-serif;
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 700;
-    line-height: 1.75;
-    text-align: justify;
+    line-height: 1.4;
 	color: #58585a;
-	width: 360px;
+	padding-top: 10px
 }
 .rightColumn{
 	width: 686px;
