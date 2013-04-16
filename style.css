@@ -112,7 +112,7 @@ html {overflow-y: scroll;}
 }
 #lightSaberBlade{
 	background:url("images/yellow_bar_strip_w-glow.png") top left repeat-x;
-	width: 758px;
+	width: 0px;
 	height: 116px;
 	display:block;
 	position:absolute;
