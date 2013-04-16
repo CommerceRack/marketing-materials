@@ -316,6 +316,7 @@ VERSION: 2013-4-8-13-11-00
 			app.pages.cloudprovider = {
 				init : function(){
 					$('#cloudTab').addClass('activeTab');
+					$('html, body').animate({ scrollTop: 0 }, 0);
 				},
 				destroy : function(){
 					$('#cloudTab').removeClass('activeTab');
@@ -360,6 +361,7 @@ VERSION: 2013-4-8-13-11-00
 			app.pages.enduser = {
 				init : function(){
 					$('#enduserTab').addClass('activeTab');
+					$('html, body').animate({ scrollTop: 0 }, 0);
 				},
 				destroy : function(){
 					$('#enduserTab').removeClass('activeTab');
@@ -393,6 +395,7 @@ VERSION: 2013-4-8-13-11-00
 			app.pages.aboutus = {
 				init : function(){
 					$('#aboutTab').addClass('activeTab');
+					$('html, body').animate({ scrollTop: 0 }, 0);
 				},
 				destroy : function(){
 					$('#aboutTab').removeClass('activeTab');
