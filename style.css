@@ -3,6 +3,10 @@ body{
 	background-color: #a9aaad;
 }
 html {overflow-y: scroll;}
+#mainContentArea{
+	position:relative;
+	z-index:-2;
+}
 /* Header/Homepage CSS start */
 #wrapper {
 	width: 1240px;
