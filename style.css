@@ -2,7 +2,10 @@ body{
 	margin:0px;
 	background-color: #a9aaad;
 }
+/*
 html {overflow-y: scroll;}
+*/
+
 #mainContentArea{
 	position:relative;
 	z-index:-2;
@@ -10,16 +13,16 @@ html {overflow-y: scroll;}
 /* Header/Homepage CSS start */
 #wrapper {
 	width: 1240px;
+	height:200px;
 	margin: 0px auto;
 	background-color: #dcddde;
-	padding-top: 638px;
 	
 }
 #header{
 	overflow: hidden;
 	width: 1240px;
 	height: 638px;
-	position: fixed;
+	position: relative;
 	top: 0px;
 }
 
