@@ -64,10 +64,10 @@ html {overflow-y: scroll;}
 #headerTabs a{
 	color: #f8e00e;
 	font-family: 'Maven Pro', sans-serif;
-	font-size: 25px;
+	font-size: 15px;
 	font-weight: 500;
     text-decoration: none;
-	width: 360px;
+	width: 260px;
 	height: 48px;
 	line-height: 48px;
 	background: #6d6e71;
